@@ -33,7 +33,7 @@ byte* loadRawFile(const char *fileName, unsigned int &width, unsigned int &heigh
 	else if (4 < channel)
 		channel = 1;
 
-	data = new byte[width*height*depth];
+	data = new byte[width*height*depth*channel];
 	size_t read = fread(data, 1, width*height*depth*channel, fp);
 	fclose(fp);
 

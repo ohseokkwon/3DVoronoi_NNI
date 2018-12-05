@@ -75,11 +75,11 @@ void cursorPosCallback(GLFWwindow * window, double xpos, double ypos)
 
 	// 왼쪽 클릭 상태
 	if (GLFW_PRESS == glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT)) {
-		g_camera.rotate(dx * glm::pi<float>(), glm::vec3(0, -1, 0));
-		g_camera.rotate(dy * glm::pi<float>(), g_camera.getRight());
+		/*g_camera.rotate(dx * glm::pi<float>(), glm::vec3(0, -1, 0));
+		g_camera.rotate(dy * glm::pi<float>(), g_camera.getRight());*/
 
-		/*g_camera.rotateAround(glm::vec3(0, 0, 0), dx * glm::pi<float>(), glm::vec3(0, -1, 0));
-		g_camera.rotateAround(glm::vec3(0, 0, 0), dy * glm::pi<float>(), g_camera.getRight());*/
+		g_camera.rotateAround(glm::vec3(0, 0, 0), dx * glm::pi<float>(), glm::vec3(0, -1, 0));
+		g_camera.rotateAround(glm::vec3(0, 0, 0), dy * glm::pi<float>(), g_camera.getRight());
 		g_camera.lookAt(g_camera.getPosition() + g_camera.getFront());
 
 		g_camera_moved = true;

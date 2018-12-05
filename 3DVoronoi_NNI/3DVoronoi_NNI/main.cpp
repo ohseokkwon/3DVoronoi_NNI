@@ -100,7 +100,7 @@ int main(int argc, char** argv)
 	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP);
-	glTexImage3D(GL_TEXTURE_3D, 0, GL_RGB32F, volumeFormat.w, volumeFormat.h, volumeFormat.d, 0, GL_BGR,
+	glTexImage3D(GL_TEXTURE_3D, 0, GL_RED, volumeFormat.w, volumeFormat.h, volumeFormat.d, 0, GL_RED,
 		GL_UNSIGNED_BYTE, volumeData);
 	glDisable(GL_TEXTURE_3D);
 
@@ -126,10 +126,10 @@ int main(int argc, char** argv)
 	/* -------------------------------------------------------------------------------------- */
 
 	g_camera.setRotation(glm::quat());
-	g_camera.setPosition(glm::vec3(0, 0, 5));
+	g_camera.setPosition(glm::vec3(0, 5, 0));
 
 
-	g_camera.lookAt(glm::vec3(0.0f));
+	g_camera.lookAt(glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 	g_camera.setProjectMode(Camera::PM_Perspective, 45, 0.1f, 500.1f);
 	g_camera.setScreen(glm::vec2(g_screenSize.cx, g_screenSize.cy));
 	g_camera.setViewport(glm::vec4(0, 0, g_screenSize.cx, g_screenSize.cy));
@@ -246,6 +246,7 @@ int main(int argc, char** argv)
 				glBindTexture(GL_TEXTURE_3D, id);
 			glUniform2f(0, (float)g_screenSize.cx * g_viewScale, (float)g_screenSize.cy * g_viewScale);
 			glUniform2f(1, (float)g_gaze.x, (float)g_gaze.y);
+			glUniform3f(1, (float)volumeFormat.w, (float)volumeFormat.h, (float)volumeFormat.d);
 			glBindBuffer(GL_UNIFORM_BUFFER, cameraUBO);
 			glm::vec3 pos = g_camera.getPosition();
 			glBufferSubData(GL_UNIFORM_BUFFER, 0, 12, &pos[0]);
