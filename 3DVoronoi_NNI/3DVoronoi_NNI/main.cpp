@@ -97,19 +97,36 @@ int main(int argc, char** argv)
 	glBindTexture(GL_TEXTURE_3D, id);
 	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP);
 	glTexImage3D(GL_TEXTURE_3D, 0, GL_RGB32F, volumeFormat.w, volumeFormat.h, volumeFormat.d, 0, GL_BGR,
 		GL_UNSIGNED_BYTE, volumeData);
 	glDisable(GL_TEXTURE_3D);
+
+	// 카메라 위치 버퍼
+	GLuint cameraUBO;
+	glGenBuffers(1, &cameraUBO);
+	glBindBuffer(GL_UNIFORM_BUFFER, cameraUBO);
+
+	glBufferData(GL_UNIFORM_BUFFER, 144, nullptr, GL_STATIC_DRAW);
+
+	glm::vec3 pos = g_camera.getPosition();
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, 12, &pos[0]);
+	glBufferSubData(GL_UNIFORM_BUFFER, 16, 64, g_camera.pmat());
+	glBufferSubData(GL_UNIFORM_BUFFER, 80, 64, g_camera.vmat());
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+	// 1에 연결
+	glBindBufferBase(GL_UNIFORM_BUFFER, 2, cameraUBO);
+
 
 	/* 성능측정 */
 	g_fout.open("../Report/opti_performance_report.csv");
 	/* -------------------------------------------------------------------------------------- */
 
 	g_camera.setRotation(glm::quat());
-	g_camera.setPosition(glm::vec3(-0.0f, 2.03f, 3.79f)); 	g_camera.lookAt(glm::vec3(-0.2f, 0.92f, 0.46));
+	g_camera.setPosition(glm::vec3(0, 0, 5));
 
 
 	g_camera.lookAt(glm::vec3(0.0f));
@@ -228,6 +245,13 @@ int main(int argc, char** argv)
 			glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_3D, id);
 			glUniform2f(0, (float)g_screenSize.cx * g_viewScale, (float)g_screenSize.cy * g_viewScale);
+			glUniform2f(1, (float)g_gaze.x, (float)g_gaze.y);
+			glBindBuffer(GL_UNIFORM_BUFFER, cameraUBO);
+			glm::vec3 pos = g_camera.getPosition();
+			glBufferSubData(GL_UNIFORM_BUFFER, 0, 12, &pos[0]);
+			glBufferSubData(GL_UNIFORM_BUFFER, 16, 64, g_camera.pmat());
+			glBufferSubData(GL_UNIFORM_BUFFER, 80, 64, g_camera.vmat());
+			glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
 			glDrawArrays(GL_QUADS, 0, 4);
 			glBindTexture(GL_TEXTURE_3D, 0);
