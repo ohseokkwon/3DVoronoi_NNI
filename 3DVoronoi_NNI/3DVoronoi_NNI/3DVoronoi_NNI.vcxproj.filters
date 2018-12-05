@@ -13,5 +13,68 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{b847c932-ddc7-4738-9655-e43ea0556b0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\JFA">
+      <UniqueIdentifier>{1561083f-cb48-4b74-873f-82c485ca5054}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="gui.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="JumpFlooding.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="FileLoader.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="gui.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="JumpFlooding.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="FileLoader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shader\nFS.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shader\nVS.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shader\JFA\cpFS.glsl">
+      <Filter>shaders\JFA</Filter>
+    </None>
+    <None Include="shader\JFA\cpVS.glsl">
+      <Filter>shaders\JFA</Filter>
+    </None>
+    <None Include="shader\JFA\jfFS.glsl">
+      <Filter>shaders\JFA</Filter>
+    </None>
+    <None Include="shader\JFA\jfVS.glsl">
+      <Filter>shaders\JFA</Filter>
+    </None>
   </ItemGroup>
 </Project>
