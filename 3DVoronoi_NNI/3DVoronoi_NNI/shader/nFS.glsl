@@ -41,14 +41,14 @@ Ray createRay(vec2 st)
 
 void main()
 {
-	float t = 0.05f;
+	float t = 0.01f;
 	Ray ray = createRay(gl_FragCoord.st);
 	vec4 color = vec4(0.0f);
 	vec3 coord3D = origin;
 	vec3 step = ray.d * t;
 
 	vec4 sum = vec4(0.0f);
-	vec4 env_factor = vec4(1.0f, 0.5f, 1.0f, 1.5f);
+	vec4 env_factor = vec4(1.0f, 0.5f, 1.0f, 1.0f);
 
 	for (int i = 0; i < 1200; i++)
 	{
