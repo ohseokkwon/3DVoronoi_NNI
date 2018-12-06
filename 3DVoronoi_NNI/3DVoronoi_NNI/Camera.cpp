@@ -174,7 +174,7 @@ glm::mat4 Camera::getPMat() const
 	}
 	else
 	{
-		return glm::perspective(m_value, m_aspect, m_near_far[0], m_near_far[1]);
+		return glm::perspective(glm::radians(m_value), m_aspect, m_near_far[0], m_near_far[1]);
 	}
 }
 

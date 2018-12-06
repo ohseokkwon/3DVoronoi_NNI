@@ -24,9 +24,9 @@ struct Ray {
 
 Ray createRay(vec2 st)
 {
-	vec2 adjust = (st / screenSize);
+	vec2 adjust = (st / screenSize) - vec2(0.5f);
 	mat4 inv = inverse(pmat * vmat);
-	vec4 tmp = vec4(adjust - vec2(0.5f), 0.0f, 1.0f);
+	vec4 tmp = vec4(adjust, 0.0f, 1.0f);
 	tmp = inv * tmp;
 	tmp.xyz /= tmp.w;
 	vec3 nearPos = tmp.xyz;
@@ -41,26 +41,34 @@ Ray createRay(vec2 st)
 
 void main()
 {
-	float t = 0.01f;
+	float t = 0.05f;
 	Ray ray = createRay(gl_FragCoord.st);
 	vec4 color = vec4(0.0f);
-	vec3 coord3D = ray.o;
+	vec3 coord3D = origin;
 	vec3 step = ray.d * t;
 
 	vec4 sum = vec4(0.0f);
-	for (int i = 0; i < 1000; i++)
+	vec4 env_factor = vec4(1.0f, 0.5f, 1.0f, 1.5f);
+
+	for (int i = 0; i < 1200; i++)
 	{
-		color = texture(tex, coord3D);
-		float intencity = color.r;
+		color = texture(tex, coord3D * 0.5f + 0.5f);
+		float intencity = clamp(color.r, 0.0f, 1.0f);
 		//color = vec4(cos(color.r * M_PI_2 - M_PI_2), sin(color.g * M_PI), cos(color.r * M_PI_2), 0.02f);
-		color = vec4(cos(intencity * M_PI_2 - M_PI_2), sin(intencity * M_PI), cos(intencity * M_PI_2 - M_PI_2), intencity);
-		color.r *= intencity;
-		color.g *= intencity;
-		color.b *= intencity;
+		color = vec4(cos(intencity * M_PI_2 - M_PI_2), sin(intencity * M_PI), cos(intencity * M_PI_2), 1.0f) * env_factor.b;
+		color.a *= env_factor.r;
+		color.r *= color.a;
+		color.g *= color.a;
+		color.b *= color.a;
 		//sum = sum + color * (1.0f - sum.w);
-		sum = mix(sum, color, (1.0f - intencity));
+		sum = mix(sum, color, intencity);
+
+		if (sum.a > 0.95f)
+			break;
+
 		coord3D += step;
 	}
+	sum *= env_factor.a;
 
 	fragColor = sum;
 }

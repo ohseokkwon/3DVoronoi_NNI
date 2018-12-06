@@ -88,7 +88,9 @@ int main(int argc, char** argv)
 
 	/* 초기화 */
 	RawFormat volumeFormat;
-	byte* volumeData = loadRawFile("../data/bucky.bin", volumeFormat.w, volumeFormat.h, volumeFormat.d, volumeFormat.c);
+	byte* volumeData = loadRawFile("../data/intensity.bin", volumeFormat.w, volumeFormat.h, volumeFormat.d, volumeFormat.c);
+	if (volumeData == nullptr)
+		exit(0);
 
 	// 3차원 텍스쳐 생성
 	GLuint id;
@@ -130,7 +132,7 @@ int main(int argc, char** argv)
 
 
 	g_camera.lookAt(glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-	g_camera.setProjectMode(Camera::PM_Perspective, 45, 0.1f, 500.1f);
+	g_camera.setProjectMode(Camera::PM_Perspective, 25, 0.1f, 500.1f);
 	g_camera.setScreen(glm::vec2(g_screenSize.cx, g_screenSize.cy));
 	g_camera.setViewport(glm::vec4(0, 0, g_screenSize.cx, g_screenSize.cy));
 
